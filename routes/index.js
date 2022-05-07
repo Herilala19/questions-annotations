@@ -4,9 +4,8 @@ module.exports = class Routes {
   }
 
   initRoutes(app) {
-    app.get('/', function (req, res, next) {
-      return res.send('Hello Pencil platform');
+    this._routes.forEach((route) => {
+      route.initRoutes(app);
     });
-    this._routes.forEach(route => route.initRoutes(app));
   }
 };

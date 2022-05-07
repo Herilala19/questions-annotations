@@ -1,5 +1,5 @@
 {
   "verbose": false,
-  "ignore": ["seed/*","node_modules/*"],
-  "delay": 5000
+  "ignore": ["node_modules/*"],
+  "delay": 500
 }

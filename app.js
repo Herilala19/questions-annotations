@@ -12,11 +12,11 @@ const ExpressBootstrapper = require('@modules/express-bootstrapper');
 const NotFoundRoute = require('@errors/not-found-error');
 
 // import models
-const Annotation = require('@models/annotation');
-const Question = require('@models/question');
+const Topic = require('@models/topic');
 
 // route import
 const Routes = require('@routes');
+const Script = require('@routes/script');
 
 // load configuration
 const configurator = new Configurator();
@@ -24,7 +24,7 @@ const { port, mongoUrl } = configurator.getAll('app');
 
 // modules instances
 const expressBootstrapper = new ExpressBootstrapper({
-  whiteList: [],
+  whiteList: ['http://localhost:3003'],
   corsErrorMessage: 'Not allowed by CORS',
 });
 
@@ -32,9 +32,12 @@ const expressBootstrapper = new ExpressBootstrapper({
 
 // routes instances and route init
 const notFoundRoute = new NotFoundRoute();
+const script = new Script({
+  Topic,
+});
 
 // NOTICE: order is important, notFoundRoute should always be in the last position
-const routeList = [notFoundRoute];
+const routeList = [script, notFoundRoute];
 // boostrap the application and routes
 expressBootstrapper.bootstrap();
 const routes = new Routes(routeList);

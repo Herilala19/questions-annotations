@@ -1,15 +1,32 @@
-const _ = require('lodash');
 const mongoose = require('mongoose');
 
-const { ObjectId } = mongoose.Schema.Types;
+const { Schema, Types } = mongoose;
 
-const schema = new mongoose.Schema(
+const schema = new Schema(
   {
+    /**
+     * question number id
+     */
+    indexQuestion: { type: Number, unique: true },
 
+    /**
+     * Topics list directly attached to the current question
+     */
+    topics: [
+      {
+        _id: {
+          type: Types.ObjectId,
+          ref: 'Topic',
+        },
+        hash: String,
+      },
+    ],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
+
+schema.index({ indexQuestion: 1 });
 
 module.exports = mongoose.model('Question', schema);
