@@ -17,8 +17,9 @@ const createQuestion = async (indexQuestion, topics = []) => {
     indexQuestion,
   })
     .then(async (response) => {
+      console.log(response._id);
       if (topics.length) {
-        const hashTopics = topics.map((elem) => hashText(elem));
+        const hashTopics = topics.map((elem) => hashText(String(elem).trim()));
         // get all topics details
         const topicsDetails = await topicsService.getTopicsByQuery({
           hash: { $in: hashTopics },
@@ -29,10 +30,7 @@ const createQuestion = async (indexQuestion, topics = []) => {
           response
         );
         // update topics with the selected question
-        const updateTopicsWithQuestion = await updateTopicsWithQuestionDetails(
-          hashTopics,
-          response
-        );
+        await updateTopicsWithQuestionDetails(hashTopics, response);
         return updateQuestionWithTopics;
       }
       return response;

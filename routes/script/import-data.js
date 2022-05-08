@@ -8,13 +8,13 @@ module.exports = class ImportData {
   constructor(models) {
     autoBind(this);
     this._topicModel = models.Topic;
-    this._sheetId = '1Ti55VxyW5MAWG8B9zNf6kynVdMXTY_W9ZyHzTB5VqmE';
   }
 
   async handler(req, res) {
     const range = req.query.range;
+    const sheetId = '1Ti55VxyW5MAWG8B9zNf6kynVdMXTY_W9ZyHzTB5VqmE';
     return googleSheetTools
-      .readSheetService(range, this._sheetId)
+      .readSheetService(range, sheetId)
       .then(async (response) => {
         if (!response) {
           return res

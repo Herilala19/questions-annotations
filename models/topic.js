@@ -30,6 +30,16 @@ const schema = new Schema(
     ],
 
     /**
+     * All child in subtree includes his _id
+     */
+    childTrees: [
+      {
+        type: Types.ObjectId,
+        ref: 'Topic',
+      },
+    ],
+
+    /**
      * Questions that the current topic is assigned
      */
     questions: [

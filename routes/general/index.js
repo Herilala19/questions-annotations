@@ -1,15 +1,16 @@
 const { Router } = require('express');
 const autoBind = require('auto-bind');
+const Search = require('./search');
 
-module.exports = class Script {
+module.exports = class General {
   constructor(models) {
     autoBind(this);
-    this._import = new ImportData(models);
+    this._search = new Search(models);
   }
 
   initRoutes(app) {
     const api = Router();
-    api.get('/search', this._import.handler);
+    api.get('/search', this._search.handler);
     /**
      * Entry point for api search routes
      */

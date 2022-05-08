@@ -17,6 +17,7 @@ const Topic = require('@models/topic');
 // route import
 const Routes = require('@routes');
 const Script = require('@routes/script');
+const General = require('@routes/general');
 
 // load configuration
 const configurator = new Configurator();
@@ -35,9 +36,12 @@ const notFoundRoute = new NotFoundRoute();
 const script = new Script({
   Topic,
 });
+const general = new General({
+  Topic,
+});
 
 // NOTICE: order is important, notFoundRoute should always be in the last position
-const routeList = [script, notFoundRoute];
+const routeList = [script, general, notFoundRoute];
 // boostrap the application and routes
 expressBootstrapper.bootstrap();
 const routes = new Routes(routeList);

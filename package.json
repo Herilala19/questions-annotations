@@ -74,7 +74,10 @@
     "eslint": "^5.14.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "precommit-hook-eslint": "^3.0.0",
-    "nodemon": "^2.0.15"
+    "precommit-hook-eslint": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Herilala19/questions-annotations.git"
   }
 }

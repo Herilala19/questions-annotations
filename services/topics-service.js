@@ -87,6 +87,20 @@ const getTopicsByQuery = (query) => {
 };
 
 /**
+ * 
+ * @param {*} query 
+ * @returns 
+ */
+const getTopicByQueryWithPopulate = (query, populate) => {
+  return Topic.findOne(query)
+    .populate(populate)
+    .lean()
+    .catch((_) => {
+      return null;
+    });
+};
+
+/**
  *
  * @param {*} query
  * @returns
@@ -108,34 +122,45 @@ const saveTopicsFromIteratorSheet = async (iterator) => {
     idTopics = [];
   while (index > -1) {
     if (iterator[index]) {
+      console.log(iterator[index]);
       createdTopic = await createTopicWithoutQuestion(
-        iterator[index],
+        String(iterator[index]).trim(),
         createdTopic ? createdTopic._id : null
       );
       idTopics.push(createdTopic._id);
     }
     --index;
   }
+  console.log(iterator);
   return idTopics;
 };
 
 /**
- * 
- * @param {*} topic 
- * @param {*} lists 
- * @returns 
+ *
+ * @param {*} topic
+ * @param {*} lists
+ * @returns
  */
-const getTopicDownTree = async (topic, lists = []) => {
+const getTopicDownTree = async (topic, lists) => {
   const response = await Topic.findById(topic).lean();
-  if (!response) return lists;
   if (lists.length === 0) lists.push(response._id);
-  if (response.child && (response.child[0] != null)) {
-    lists = [...lists, response.child];
-    for (const iterator of response.child) {
-      await getTopicDownTree(iterator, lists);
-    }
+  for (const iterator of response.child) {
+    lists.push(iterator);
+    await getTopicDownTree(iterator, lists);
   }
   return lists;
+};
+
+/**
+ * 
+ * @param {*} query 
+ * @param {*} queryUpdate 
+ * @returns 
+ */
+const updateTopicByQuery = (query, queryUpdate) => {
+  return Topic.findByIdAndUpdate(query, queryUpdate).catch((_) => {
+    return null;
+  });
 };
 
 module.exports = {
@@ -146,4 +171,7 @@ module.exports = {
   updateTopicsByQuery,
   addChildoTopic,
   saveTopicsFromIteratorSheet,
+  getTopicDownTree,
+  updateTopicByQuery,
+  getTopicByQueryWithPopulate
 };
